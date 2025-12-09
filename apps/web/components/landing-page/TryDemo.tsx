@@ -112,19 +112,60 @@ export default function TryDemo() {
           className="max-w-3xl mx-auto mb-12"
         >
           <div className="relative rounded-xl border border-gray-800 bg-linear-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-sm overflow-hidden shadow-2xl shadow-blue-500/5">
+            {/* Pulsing glow effect */}
+            <motion.div
+              className="absolute inset-0 rounded-xl"
+              animate={{
+                boxShadow: [
+                  "0 0 20px rgba(59, 130, 246, 0.1)",
+                  "0 0 40px rgba(59, 130, 246, 0.2)",
+                  "0 0 20px rgba(59, 130, 246, 0.1)",
+                ],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+
+            {/* Shimmer effect */}
+            <motion.div
+              className="absolute inset-0 opacity-30"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent)",
+              }}
+              animate={{
+                x: ["-100%", "200%"],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "linear",
+                repeatDelay: 2,
+              }}
+            />
+
             {/* Demo Header */}
-            <div className="px-6 py-4 border-b border-gray-800 bg-gray-900/80">
+            <div className="relative px-6 py-4 border-b border-gray-800 bg-gray-900/80">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-blue-400" />
                 <span className="text-sm font-medium text-gray-300">Live Demo Preview</span>
                 <div className="ml-auto flex items-center gap-2">
                   <div className="flex items-center gap-1">
                     {demoSteps.map((_, index) => (
-                      <div
+                      <motion.div
                         key={index}
                         className={`w-1.5 h-1.5 rounded-full transition-colors ${
                           index === currentStep ? 'bg-blue-500' : 'bg-gray-700'
                         }`}
+                        animate={index === currentStep ? {
+                          scale: [1, 1.3, 1],
+                        } : {}}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                        }}
                       />
                     ))}
                   </div>
@@ -136,7 +177,7 @@ export default function TryDemo() {
             </div>
             
             {/* Demo Content */}
-            <div className="p-8">
+            <div className="relative p-8">
               <motion.div
                 key={currentStep}
                 initial={{ opacity: 0, y: 20 }}
@@ -147,15 +188,35 @@ export default function TryDemo() {
               >
                 {/* Tooltip Card */}
                 <div className="relative">
-                  {/* Pointer */}
-                  <div className="absolute -top-3 left-6 w-4 h-4 rotate-45 bg-gray-800 border-l border-t border-gray-700" />
+                  {/* Pointer with bounce animation */}
+                  <motion.div
+                    className="absolute -top-3 left-6 w-4 h-4 rotate-45 bg-gray-800 border-l border-t border-gray-700"
+                    animate={{
+                      y: [0, -4, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
                   
                   {/* Card */}
                   <div className="p-6 rounded-lg border border-gray-700 bg-gray-800/50 backdrop-blur-sm shadow-lg">
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center">
+                      <motion.div
+                        className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center"
+                        animate={{
+                          rotate: [0, 360],
+                        }}
+                        transition={{
+                          duration: 20,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                      >
                         <Sparkles className="w-4 h-4 text-blue-400" />
-                      </div>
+                      </motion.div>
                       <div className="flex-1">
                         <h4 className="text-lg font-semibold text-gray-100 mb-2">
                           {demoSteps[currentStep].title}
@@ -177,13 +238,28 @@ export default function TryDemo() {
                     Restart Demo
                   </button>
                   
-                  <button
+                  <motion.button
                     onClick={nextStep}
-                    className="group inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20"
+                    className="group inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20 relative overflow-hidden"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {demoSteps[currentStep].buttonText}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                    {/* Animated gradient overlay */}
+                    <motion.div
+                      className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent"
+                      animate={{
+                        x: ["-100%", "200%"],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "linear",
+                        repeatDelay: 1,
+                      }}
+                    />
+                    <span className="relative">{demoSteps[currentStep].buttonText}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative" />
+                  </motion.button>
                 </div>
               </motion.div>
             </div>
@@ -202,11 +278,24 @@ export default function TryDemo() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={startDemo}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20 relative overflow-hidden"
           >
-            <Play className="w-5 h-5" />
-            Start Interactive Demo
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            {/* Animated shine effect */}
+            <motion.div
+              className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
+              animate={{
+                x: ["-100%", "200%"],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "linear",
+                repeatDelay: 1.5,
+              }}
+            />
+            <Play className="w-5 h-5 relative" />
+            <span className="relative">Start Interactive Demo</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative" />
           </motion.button>
         </motion.div>
 

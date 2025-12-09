@@ -59,7 +59,6 @@ export default function Navbar() {
               <span className="text-lg font-semibold text-gray-200">Tour</span>
             </Link>
 
-            {/* Desktop Navigation - Left aligned like docs */}
             <div className="hidden md:flex items-center gap-6">
               <Link
                 href="/documentation"
@@ -78,7 +77,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Desktop Get Started Button */}
           <div className="hidden md:flex items-center gap-4">
             {!loading && (
               <>
@@ -95,13 +93,13 @@ export default function Navbar() {
                   <>
                     <Link
                       href="/dashboard"
-                      className="px-4 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg text-sm transition-colors"
+                      className="px-4 py-2 text-gray-400 hover:text-gray-200 rounded-lg text-sm transition-colors"
                     >
                       Dashboard
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="px-4 py-2 border border-gray-700 text-gray-400 hover:text-gray-200 hover:border-gray-600 rounded-lg text-sm transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 border border-gray-700 text-gray-300 font-medium rounded-lg hover:border-gray-600 hover:text-gray-200 hover:bg-gray-900/50 transition-all duration-300"
                     >
                       Logout
                     </button>
@@ -111,7 +109,6 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
             className="md:hidden text-gray-400 hover:text-gray-200 transition-colors"
@@ -120,7 +117,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -131,7 +127,6 @@ export default function Navbar() {
               className="md:hidden overflow-hidden border-t border-gray-800"
             >
               <div className="py-4 space-y-3">
-                {/* Mobile Navigation Links */}
                 <motion.div variants={itemVariants} className="space-y-1">
                   <Link
                     href="/documentation"
@@ -159,7 +154,6 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
 
-                {/* Mobile Auth Buttons */}
                 {!loading && (
                   <motion.div variants={itemVariants} className="pt-3 space-y-2">
                     {!user && (

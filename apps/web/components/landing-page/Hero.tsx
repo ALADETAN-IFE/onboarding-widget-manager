@@ -2,12 +2,30 @@
 
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Code, Play, Zap } from "lucide-react";
 import React from "react";
 
 export default function Hero() {
   const { user, loading } = useAuth();
+
+  // -------------------- WORD ROTATION ANIMATION --------------------
+  const rotatingPhrases = [
+    "Build Interactive",
+    "Build Beautiful", 
+    "Build Engaging",
+    "Build Seamless"
+  ];
+  const [currentPhraseIndex, setCurrentPhraseIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
+  // ----------------------------------------------------------
 
   // -------------------- TYPING ANIMATION --------------------
   const fullCode = `// Initialize tour in seconds
@@ -92,7 +110,18 @@ Tour.init({
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
         >
-          <span className="block text-gray-100">Build Interactive</span>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={currentPhraseIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="block text-gray-100"
+            >
+              {rotatingPhrases[currentPhraseIndex]}
+            </motion.span>
+          </AnimatePresence>
           <span className="block mt-2 bg-linear-to-r from-blue-400 via-blue-300 to-blue-400 bg-clip-text text-transparent">
             Onboarding Tours
           </span>
