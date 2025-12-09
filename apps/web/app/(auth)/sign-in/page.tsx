@@ -1,5 +1,42 @@
-export default function SignIn(){
-    return(
+"use client";
+
+import { useState } from "react";
+import { auth, googleProvider } from "@/lib/firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { toast } from "sonner";
+import Link from "next/link";
+
+export default function SignIn() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    async function handleSignIn(e: React.FormEvent) {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            toast.success("Signed in successfully!");
+            // redirect optional
+            // router.push("/dashboard");
+        } catch (error: any) {
+            toast.error("Invalid email or password");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleGoogle() {
+        try {
+            await signInWithPopup(auth, googleProvider);
+            toast.success("Signed in with Google!");
+        } catch (error) {
+            toast.error("Google sign-in failed.");
+        }
+    }
+
+    return (
         <div className="min-h-screen flex items-center justify-center px-6 py-12">
             <div className="w-full max-w-md flex flex-col gap-6">
                 <div className="text-center mb-2">
@@ -7,7 +44,10 @@ export default function SignIn(){
                     <p className="text-lg">Sign in to continue to your dashboard</p>
                 </div>
 
-                <button className="w-full px-6 py-3 rounded-lg border-2 font-medium flex items-center justify-center gap-3 hover:opacity-70 transition-opacity">
+                <button
+                    onClick={handleGoogle}
+                    className="w-full px-6 py-3 rounded-lg border-2 font-medium flex items-center justify-center gap-3 hover:opacity-70 transition-opacity"
+                >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -23,13 +63,16 @@ export default function SignIn(){
                     <div className="flex-1 h-px bg-gray-300"></div>
                 </div>
 
-                <form className="flex flex-col gap-4">
+                <form className="flex flex-col gap-4" onSubmit={handleSignIn}>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="email" className="font-medium">Email</label>
-                        <input 
-                            type="email" 
+                        <input
+                            type="email"
                             id="email"
                             placeholder="you@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
                             className="px-4 py-3 rounded-lg border-2 focus:outline-none focus:border-gray-400"
                         />
                     </div>
@@ -37,33 +80,37 @@ export default function SignIn(){
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center justify-between">
                             <label htmlFor="password" className="font-medium">Password</label>
-                            <a href="/forgot-password" className="text-sm hover:opacity-70 underline">
+                            <Link href="/forgot-password" className="text-sm hover:opacity-70 underline">
                                 Forgot password?
-                            </a>
+                            </Link>
                         </div>
-                        <input 
-                            type="password" 
+                        <input
+                            type="password"
                             id="password"
                             placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
                             className="px-4 py-3 rounded-lg border-2 focus:outline-none focus:border-gray-400"
                         />
                     </div>
 
-                    <button 
+                    <button
                         type="submit"
+                        disabled={loading}
                         className="w-full px-6 py-3 rounded-lg font-medium mt-2 hover:opacity-70 transition-opacity"
                     >
-                        Sign In
+                        {loading ? "Signing in..." : "Sign In"}
                     </button>
                 </form>
 
                 <p className="text-center text-sm">
-                    Don't have an account?{' '}
-                    <a href="/sign-up" className="font-medium underline hover:opacity-70">
+                    Don't have an account?{" "}
+                    <Link href="/sign-up" className="font-medium underline hover:opacity-70">
                         Sign Up
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
-    )
+    );
 }
