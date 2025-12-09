@@ -9,8 +9,11 @@ import TryDemo from "@/components/landing-page/TryDemo";
 export default function Home() {
   return (
     <div>
+      <div className="relative">
       <Hero />
       <Features />
+      </div>
+
       <HowItWorks />
       <TryDemo />
       <DocumentationPreview />
