@@ -8,10 +8,9 @@ export default function Home() {
   return (
     <div>
       <div className="relative">
-      <Hero />
-      <Features />
+        <Hero />
+        <Features />
       </div>
-
       <HowItWorks />
       <TryDemo />
       <DocumentationPreview />
