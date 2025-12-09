@@ -3,7 +3,7 @@ export default function DashboardHeader() {
     <header className="flex flex-col gap-3">
       <div className="flex items-center gap-3 text-sm text-gray-300">
         <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10">
-          Phase 2 · Creator Dashboard
+          Creator Dashboard
         </span>
         <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10">
           Live demo UI
