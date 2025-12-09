@@ -7,7 +7,7 @@ import { signOut } from "firebase/auth";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, FileText, Code, Settings, HelpCircle } from "lucide-react";
 
 export default function Navbar() {
   const { user, loading } = useAuth();
@@ -47,223 +47,158 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="px-6 py-4 border-b border-gray-800/50 backdrop-blur-sm">
-      <div className="flex items-center justify-between">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="font-bold text-2xl bg-linear-to-r from-purple-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent"
-        >
-          logo
-        </motion.div>
-
-        {/* Desktop Navigation */}
-        <motion.ul
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="hidden md:flex items-center gap-8"
-        >
-          <li>
-            <Link
-              href="/"
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 relative group"
-            >
-              Features
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-fuchsia-400 group-hover:w-full transition-all duration-300"></span>
+    <nav className="sticky top-0 z-50 border-b border-gray-800 bg-gray-950/95 backdrop-blur supports-backdrop-filter:bg-gray-950/60">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                <FileText className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-lg font-semibold text-gray-200">Tour</span>
             </Link>
-          </li>
 
-          <li>
-            <Link
-              href="/"
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 relative group"
-            >
-              How it Works
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-fuchsia-400 group-hover:w-full transition-all duration-300"></span>
-            </Link>
-          </li>
+            {/* Desktop Navigation - Left aligned like docs */}
+            <div className="hidden md:flex items-center gap-6">
+              <Link
+                href="/documentation"
+                className="text-gray-400 hover:text-gray-200 transition-colors text-sm flex items-center gap-1"
+              >
+                <Code className="w-4 h-4" />
+                Documentation
+              </Link>
+              <Link
+                href="/about"
+                className="text-gray-400 hover:text-gray-200 transition-colors text-sm flex items-center gap-1"
+              >
+                <HelpCircle className="w-4 h-4" />
+                About
+              </Link>
+            </div>
+          </div>
 
-          <li>
-            <Link
-              href="/documentation"
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 relative group"
-            >
-              Documentation
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-fuchsia-400 group-hover:w-full transition-all duration-300"></span>
-            </Link>
-          </li>
+          {/* Desktop Get Started Button */}
+          <div className="hidden md:flex items-center gap-4">
+            {!loading && (
+              <>
+                {!user && (
+                  <Link
+                    href="/sign-up"
+                    className="px-4 py-2 bg-linear-to-r from-blue-600 to-blue-500 text-white rounded-lg text-sm font-medium hover:from-blue-500 hover:to-blue-400 transition-all"
+                  >
+                    Get Started
+                  </Link>
+                )}
 
-          <li>
-            <Link
-              href="/about"
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 relative group"
-            >
-              About
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-fuchsia-400 group-hover:w-full transition-all duration-300"></span>
-            </Link>
-          </li>
-        </motion.ul>
-
-        {/* Desktop Auth Buttons */}
-        <motion.ul
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
-          className="hidden md:flex items-center gap-4"
-        >
-          {!loading && (
-            <>
-              {!user && (
-                <>
-                  <li>
-                    <Link
-                      href="/sign-up"
-                      className="px-6 py-2.5 rounded-lg bg-linear-to-r from-purple-500 to-fuchsia-500 text-white font-semibold shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 hover:scale-105 transition-all duration-300"
-                    >
-                      Get Started
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      href="/sign-in"
-                      className="px-6 py-2.5 rounded-lg border-2 border-purple-500/50 text-gray-300 hover:text-purple-400 hover:border-purple-400 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
-                    >
-                      Sign In
-                    </Link>
-                  </li>
-                </>
-              )}
-
-              {user && (
-                <>
-                  <li>
+                {user && (
+                  <>
                     <Link
                       href="/dashboard"
-                      className="px-6 py-2.5 rounded-lg text-gray-300 hover:text-purple-400 hover:bg-purple-500/10 transition-all duration-300"
+                      className="px-4 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg text-sm transition-colors"
                     >
                       Dashboard
                     </Link>
-                  </li>
-
-                  <li>
                     <button
                       onClick={handleLogout}
-                      className="px-6 py-2.5 rounded-lg border-2 border-purple-500/50 text-gray-300 hover:text-purple-400 hover:border-purple-400 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
+                      className="px-4 py-2 border border-gray-700 text-gray-400 hover:text-gray-200 hover:border-gray-600 rounded-lg text-sm transition-colors"
                     >
                       Logout
                     </button>
-                  </li>
-                </>
-              )}
-            </>
-          )}
-        </motion.ul>
+                  </>
+                )}
+              </>
+            )}
+          </div>
 
-        {/* Mobile Menu Button */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          onClick={toggleMenu}
-          className="md:hidden text-gray-300 hover:text-purple-400 transition-colors"
-        >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </motion.button>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={menuVariants}
-            className="md:hidden overflow-hidden"
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden text-gray-400 hover:text-gray-200 transition-colors"
           >
-            <div className="py-4 space-y-4">
-              {/* Mobile Navigation Links */}
-              <motion.div variants={itemVariants} className="space-y-2">
-                <Link
-                  href="/"
-                  onClick={toggleMenu}
-                  className="block px-4 py-2 text-gray-300 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-300"
-                >
-                  Features
-                </Link>
-                <Link
-                  href="/"
-                  onClick={toggleMenu}
-                  className="block px-4 py-2 text-gray-300 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-300"
-                >
-                  How it Works
-                </Link>
-                <Link
-                  href="/documentation"
-                  onClick={toggleMenu}
-                  className="block px-4 py-2 text-gray-300 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-300"
-                >
-                  Documentation
-                </Link>
-                <Link
-                  href="/about"
-                  onClick={toggleMenu}
-                  className="block px-4 py-2 text-gray-300 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-300"
-                >
-                  About
-                </Link>
-              </motion.div>
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
-              {/* Mobile Auth Buttons */}
-              {!loading && (
-                <motion.div variants={itemVariants} className="space-y-2 pt-4 border-t border-gray-800/50">
-                  {!user && (
-                    <>
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={menuVariants}
+              className="md:hidden overflow-hidden border-t border-gray-800"
+            >
+              <div className="py-4 space-y-3">
+                {/* Mobile Navigation Links */}
+                <motion.div variants={itemVariants} className="space-y-1">
+                  <Link
+                    href="/documentation"
+                    onClick={toggleMenu}
+                    className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <Code className="w-4 h-4" />
+                    Documentation
+                  </Link>
+                  <Link
+                    href="/examples"
+                    onClick={toggleMenu}
+                    className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Examples
+                  </Link>
+                  <Link
+                    href="/about"
+                    onClick={toggleMenu}
+                    className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
+                  >
+                    <HelpCircle className="w-4 h-4" />
+                    About
+                  </Link>
+                </motion.div>
+
+                {/* Mobile Auth Buttons */}
+                {!loading && (
+                  <motion.div variants={itemVariants} className="pt-3 space-y-2">
+                    {!user && (
                       <Link
                         href="/sign-up"
                         onClick={toggleMenu}
-                        className="block px-4 py-2.5 rounded-lg bg-linear-to-r from-purple-500 to-fuchsia-500 text-white font-semibold text-center shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-all duration-300"
+                        className="block px-4 py-2.5 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium text-center rounded-lg text-sm hover:from-blue-500 hover:to-blue-400 transition-all"
                       >
                         Get Started
                       </Link>
-                      <Link
-                        href="/sign-in"
-                        onClick={toggleMenu}
-                        className="block px-4 py-2.5 rounded-lg border-2 border-purple-500/50 text-gray-300 hover:text-purple-400 hover:border-purple-400 text-center transition-all duration-300"
-                      >
-                        Sign In
-                      </Link>
-                    </>
-                  )}
+                    )}
 
-                  {user && (
-                    <>
-                      <Link
-                        href="/dashboard"
-                        onClick={toggleMenu}
-                        className="block px-4 py-2.5 rounded-lg text-gray-300 hover:text-purple-400 hover:bg-purple-500/10 text-center transition-all duration-300"
-                      >
-                        Dashboard
-                      </Link>
-                      <button
-                        onClick={() => {
-                          handleLogout();
-                          toggleMenu();
-                        }}
-                        className="w-full px-4 py-2.5 rounded-lg border-2 border-purple-500/50 text-gray-300 hover:text-purple-400 hover:border-purple-400 transition-all duration-300"
-                      >
-                        Logout
-                      </button>
-                    </>
-                  )}
-                </motion.div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    {user && (
+                      <>
+                        <Link
+                          href="/dashboard"
+                          onClick={toggleMenu}
+                          className="block px-4 py-2.5 text-gray-400 hover:text-gray-200 hover:bg-gray-800 text-center rounded-lg transition-colors"
+                        >
+                          Dashboard
+                        </Link>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            toggleMenu();
+                          }}
+                          className="w-full px-4 py-2.5 border border-gray-700 text-gray-400 hover:text-gray-200 hover:border-gray-600 rounded-lg text-sm transition-colors"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    )}
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </nav>
   );
 }

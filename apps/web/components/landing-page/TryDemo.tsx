@@ -1,130 +1,228 @@
 "use client"
 
 import { motion } from "framer-motion";
+import { Play, ArrowRight, Sparkles, Eye } from "lucide-react";
+import { useState } from "react";
 
 export default function TryDemo() {
+  const [currentStep, setCurrentStep] = useState(0);
+  
+  const demoSteps = [
+    {
+      title: "Welcome to your first tour!",
+      description: "Use interactive tooltips to guide users through key features.",
+      buttonText: "Next: Features"
+    },
+    {
+      title: "Discover features",
+      description: "Highlight important elements with beautiful animations.",
+      buttonText: "Next: Get Started"
+    },
+    {
+      title: "Ready to get started?",
+      description: "Complete the tour to begin exploring your dashboard.",
+      buttonText: "Complete Tour"
+    }
+  ];
+
+  const nextStep = () => {
+    setCurrentStep((prev) => (prev + 1) % demoSteps.length);
+  };
+
+  const startDemo = () => {
+    setCurrentStep(0);
+  };
+
   return (
-    <section className="relative py-24 px-6 flex flex-col items-center text-center overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute top-10 right-20 w-24 h-24 rounded-full bg-linear-to-br from-purple-500/20 to-fuchsia-500/20 blur-xl"
-          animate={{
-            y: [0, 20, 0],
-            x: [0, -10, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        <motion.div
-          className="absolute bottom-20 left-10 w-32 h-32 rounded-full border border-purple-500/30"
-          animate={{
-            y: [0, -15, 0],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        <motion.div
-          className="absolute top-1/3 left-1/4 w-16 h-16 border-2 border-fuchsia-400/30"
-          style={{
-            transform: "perspective(500px) rotateX(45deg) rotateZ(45deg)",
-          }}
-          animate={{
-            y: [0, -10, 0],
-            rotateZ: [45, 90, 45],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
+    <section className="relative py-20 md:py-32 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 right-1/4 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-700/3 rounded-full blur-3xl" />
       </div>
 
-      {/* Content */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 text-3xl md:text-5xl font-bold mb-4 bg-linear-to-r from-white via-purple-200 to-fuchsia-200 bg-clip-text text-transparent"
-      >
-        Try the Interactive Demo
-      </motion.h2>
-
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="relative z-10 text-lg md:text-xl text-gray-300 max-w-2xl mb-12"
-      >
-        Experience how your users will navigate through smooth, guided
-        onboarding steps — right inside your product.
-      </motion.p>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative z-10 w-full max-w-3xl bg-linear-to-br from-purple-900/20 to-fuchsia-900/20 backdrop-blur-sm rounded-xl p-8 mb-10 shadow-2xl border border-purple-500/30"
-      >
-        <p className="text-lg mb-4 font-semibold text-purple-200">
-          Demo Preview
-        </p>
-
-        <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20 shadow-xl flex flex-col gap-4">
+      {/* Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(12)].map((_, i) => (
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="p-4 bg-linear-to-br from-purple-800/30 to-fuchsia-800/30 rounded-md text-left border border-purple-500/20"
-          >
-            <p className="font-medium text-purple-200">
-              Step 1: Welcome to your first tour!
-            </p>
-            <p className="text-sm mt-1 text-gray-400">
-              Use steps like this to guide users through your interface.
-            </p>
-          </motion.div>
+            key={i}
+            className="absolute w-1 h-1 bg-blue-500/30 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -10, 0],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              delay: i * 0.2,
+              repeat: Infinity,
+            }}
+          />
+        ))}
+      </div>
 
-          <motion.button
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-800 bg-gray-900/50 mb-6"
+          >
+            <Play className="w-4 h-4 text-blue-400" />
+            <span className="text-sm font-medium text-gray-300">Interactive Demo</span>
+          </motion.div>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
+          >
+            <span className="block text-gray-100">See it in action</span>
+            <span className="block mt-2 bg-linear-to-r from-blue-400 via-blue-300 to-blue-400 bg-clip-text text-transparent">
+              Try the demo yourself
+            </span>
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-lg text-gray-400 max-w-2xl mx-auto"
+          >
+            Experience how users will navigate through smooth, guided onboarding steps.
+          </motion.p>
+        </div>
+
+        {/* Demo Preview */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="max-w-3xl mx-auto mb-12"
+        >
+          <div className="relative rounded-xl border border-gray-800 bg-linear-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-sm overflow-hidden shadow-2xl shadow-blue-500/5">
+            {/* Demo Header */}
+            <div className="px-6 py-4 border-b border-gray-800 bg-gray-900/80">
+              <div className="flex items-center gap-2">
+                <Eye className="w-4 h-4 text-blue-400" />
+                <span className="text-sm font-medium text-gray-300">Live Demo Preview</span>
+                <div className="ml-auto flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    {demoSteps.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                          index === currentStep ? 'bg-blue-500' : 'bg-gray-700'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs text-gray-500 ml-2">
+                    Step {currentStep + 1} of {demoSteps.length}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Demo Content */}
+            <div className="p-8">
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col gap-6"
+              >
+                {/* Tooltip Card */}
+                <div className="relative">
+                  {/* Pointer */}
+                  <div className="absolute -top-3 left-6 w-4 h-4 rotate-45 bg-gray-800 border-l border-t border-gray-700" />
+                  
+                  {/* Card */}
+                  <div className="p-6 rounded-lg border border-gray-700 bg-gray-800/50 backdrop-blur-sm shadow-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-blue-400" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-lg font-semibold text-gray-100 mb-2">
+                          {demoSteps[currentStep].title}
+                        </h4>
+                        <p className="text-gray-400">
+                          {demoSteps[currentStep].description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Demo Controls */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-800/50">
+                  <button
+                    onClick={startDemo}
+                    className="px-4 py-2 rounded-lg border border-gray-700 text-sm text-gray-400 hover:text-gray-300 hover:border-gray-600 transition-colors"
+                  >
+                    Restart Demo
+                  </button>
+                  
+                  <button
+                    onClick={nextStep}
+                    className="group inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20"
+                  >
+                    {demoSteps[currentStep].buttonText}
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="self-end px-5 py-2 rounded-lg font-medium bg-linear-to-r from-purple-500 to-fuchsia-500 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300"
+            onClick={startDemo}
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-blue-600 to-blue-500 text-white font-medium rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20"
           >
-            Next Step
+            <Play className="w-5 h-5" />
+            Start Interactive Demo
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </motion.button>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      <motion.button
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative z-10 px-8 py-3 rounded-lg font-semibold bg-linear-to-r from-purple-500 to-fuchsia-500 text-white shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-all duration-300"
-      >
-        Start Demo Tour
-      </motion.button>
+        {/* Additional Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-12 pt-8 border-t border-gray-800/50 text-center"
+        >
+          <p className="text-sm text-gray-500">
+            Want to customize this demo? <a href="/sign-up" className="text-blue-400 hover:text-blue-300 transition-colors">Sign up for free →</a>
+          </p>
+        </motion.div>
+      </div>
     </section>
   );
 }
