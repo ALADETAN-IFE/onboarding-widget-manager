@@ -8,8 +8,6 @@ build
 .doc
 
 # Env & logs
-.env
-.env.local
 .env.*.local
 npm-debug.log*
 yarn-debug.log*
@@ -19,10 +17,10 @@ pnpm-debug.log*
 # Editor
 .DS_Store
 .idea
-.vscode
 *.swp
 
 # Firebase
 **/serviceAccountKey.json
 apps/widget/backups/
 .github/local
+config.bat
