@@ -23,4 +23,3 @@ pnpm-debug.log*
 **/serviceAccountKey.json
 apps/widget/backups/
 .github/local
-config.bat
